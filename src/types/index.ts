@@ -6,8 +6,12 @@ export type Context = {
 };
 
 export type PostCreateArgs = {
-  title: string;
-  content: string;
+  post: { title: string; content: string };
+};
+
+export type PostUpdateArgs = {
+  postId: string;
+  post: { title?: string; content?: string };
 };
 
 type UserErrors =

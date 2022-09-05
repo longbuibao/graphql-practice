@@ -10,11 +10,18 @@ export type PostCreateArgs = {
   content: string;
 };
 
+type UserErrors =
+  | {
+      message: string;
+    }[]
+  | {};
+
 export type PostPayload = {
-  userErrors:
-    | {
-        message: string;
-      }[]
-    | {};
+  userErrors: UserErrors;
   post: null | Post;
+};
+
+export type PostsGet = {
+  userErrors: UserErrors;
+  posts: null | Post[];
 };

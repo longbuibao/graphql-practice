@@ -1,7 +1,7 @@
 import { gql } from 'apollo-server';
 const typeDefs = gql`
   type Query {
-    posts: [Post]
+    posts: PostsGet!
   }
 
   type User {
@@ -34,6 +34,11 @@ const typeDefs = gql`
   type PostPayload {
     userErrors: [UserError!]
     post: Post
+  }
+
+  type PostsGet {
+    userErrors: [UserError!]
+    posts: [Post]
   }
 
   type UserError {

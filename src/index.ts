@@ -1,15 +1,22 @@
 import { ApolloServer } from 'apollo-server';
+import { PrismaClient } from '@prisma/client';
 
 import typeDefs from './schema';
-import { Query } from './resolvers';
+import { Query, Mutation } from './resolvers';
+
+const prisma = new PrismaClient();
 
 const resolvers = {
   Query,
+  Mutation,
 };
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context: {
+    prisma,
+  },
 });
 
 server.listen().then(({ url }) => {

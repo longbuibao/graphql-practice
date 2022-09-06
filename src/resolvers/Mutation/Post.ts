@@ -1,6 +1,6 @@
-import { Context, PostCreateArgs, PostPayload, PostUpdateArgs } from '../types';
+import { Context, PostCreateArgs, PostPayload, PostUpdateArgs } from '../../types';
 
-export const Mutation = {
+export const PostResolvers = {
   postCreate: async (_: any, { post }: PostCreateArgs, context: Context): Promise<PostPayload> => {
     const { title, content } = post;
     if (!title || !content) {

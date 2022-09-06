@@ -45,3 +45,9 @@ export type SignupArgs = {
   name: string;
   bio: string;
 };
+
+export type CanUserMutatePost = {
+  userId: number;
+  postId: number;
+  prisma: Context['prisma'];
+};

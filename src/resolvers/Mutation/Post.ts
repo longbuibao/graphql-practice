@@ -1,4 +1,5 @@
 import { Context, PostCreateArgs, PostPayload, PostUpdateArgs } from '../../types';
+import { canUserMutatePost } from '../../utils/can-user-mutate-post';
 
 export const PostResolvers = {
   postCreate: async (_: any, { post }: PostCreateArgs, { prisma, userInfo }: Context): Promise<PostPayload> => {
@@ -33,7 +34,17 @@ export const PostResolvers = {
       };
     }
   },
-  postUpdate: async (_: any, { postId, post }: PostUpdateArgs, { prisma }: Context): Promise<PostPayload> => {
+  postUpdate: async (_: any, { postId, post }: PostUpdateArgs, { prisma, userInfo }: Context): Promise<PostPayload> => {
+    if (!userInfo) {
+      return {
+        userErrors: [{ message: 'Please login to create post' }],
+        post: null,
+      };
+    }
+
+    const error = await canUserMutatePost({ postId: +postId, userId: userInfo.userId, prisma });
+    if (error) return error;
+
     const { title, content } = post;
     if (!title && !content)
       return {
@@ -66,7 +77,17 @@ export const PostResolvers = {
       };
     }
   },
-  postDelete: async (_: any, { postId }: { postId: string }, { prisma }: Context): Promise<PostPayload> => {
+  postDelete: async (_: any, { postId }: { postId: string }, { prisma, userInfo }: Context): Promise<PostPayload> => {
+    if (!userInfo) {
+      return {
+        userErrors: [{ message: 'Please login to create post' }],
+        post: null,
+      };
+    }
+
+    const error = await canUserMutatePost({ postId: +postId, userId: userInfo.userId, prisma });
+    if (error) return error;
+
     const existingPost = await prisma.post.findUnique({ where: { id: +postId } });
     if (!existingPost)
       return {

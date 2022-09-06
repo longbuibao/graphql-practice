@@ -2,6 +2,9 @@ import { PrismaClient, Prisma, User, Post } from '@prisma/client';
 
 export type Context = {
   prisma: PrismaClient<Prisma.PrismaClientOptions, never, Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined>;
+  userInfo: {
+    userId: number;
+  };
 };
 
 export type PostCreateArgs = {
@@ -35,8 +38,10 @@ export type UserPayload = {
 };
 
 export type SignupArgs = {
-  email: string;
+  credential: {
+    email: string;
+    password: string;
+  };
   name: string;
   bio: string;
-  password: string;
 };

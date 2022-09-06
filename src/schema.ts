@@ -31,7 +31,8 @@ const typeDefs = gql`
     postCreate(post: PostInput!): PostPayload!
     postUpdate(postId: ID!, post: PostInput!): PostPayload!
     postDelete(postId: ID!): PostPayload!
-    signup(email: String!, name: String!, password: String!, bio: String!): AuthPayload!
+    signup(credential: Credential!, name: String!, bio: String!): AuthPayload!
+    signin(credential: Credential!): AuthPayload!
   }
 
   type AuthPayload {
@@ -56,6 +57,11 @@ const typeDefs = gql`
   input PostInput {
     title: String
     content: String
+  }
+
+  input Credential {
+    email: String!
+    password: String!
   }
 `;
 

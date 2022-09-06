@@ -1,7 +1,14 @@
 import { Context, PostCreateArgs, PostPayload, PostUpdateArgs } from '../../types';
 
 export const PostResolvers = {
-  postCreate: async (_: any, { post }: PostCreateArgs, context: Context): Promise<PostPayload> => {
+  postCreate: async (_: any, { post }: PostCreateArgs, { prisma, userInfo }: Context): Promise<PostPayload> => {
+    if (!userInfo) {
+      return {
+        userErrors: [{ message: 'Please login to create post' }],
+        post: null,
+      };
+    }
+
     const { title, content } = post;
     if (!title || !content) {
       return {
@@ -11,8 +18,8 @@ export const PostResolvers = {
     }
 
     try {
-      const post = await context.prisma.post.create({
-        data: { content, title, authorId: 1 },
+      const post = await prisma.post.create({
+        data: { content, title, authorId: userInfo.userId },
       });
 
       return {

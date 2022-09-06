@@ -51,3 +51,10 @@ export type CanUserMutatePost = {
   postId: number;
   prisma: Context['prisma'];
 };
+
+export type PostPayloadType = {
+  userErrors: {
+    message: string;
+  }[];
+  post: Post | Prisma.Prisma__PostClient<Post> | null;
+};

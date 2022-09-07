@@ -2,6 +2,8 @@ import { gql } from 'apollo-server';
 const typeDefs = gql`
   type Query {
     posts: PostsGet!
+    me: User!
+    profile(userId: ID!): Profile!
   }
 
   type User {
